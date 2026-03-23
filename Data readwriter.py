@@ -9,5 +9,16 @@ print("-------------------")
 
 data = open("Hotdogs.txt", "a+")        #"a+" opens file to read and write to the end of the file
 data.write("blahblahblah")
-data.seek(0)                            #moves file pointer to the beginning of the code
+data.seek(0)                            #moves file pointer to the beginning of the file
 print(data.read())
+print("-----------please-----------")
+#---------------------------
+
+with open ("Hotdogs.txt", "r+") as data:
+    hotdogs =[]
+    hotdogs = data.read().split("\n")
+    print(hotdogs)
+
+for i in hotdogs:
+    vendor = i.split(",")
+    print(vendor)
