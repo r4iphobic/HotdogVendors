@@ -15,10 +15,10 @@ print("-----------please-----------")
 #---------------------------
 
 with open ("Hotdogs.txt", "r+") as data:
-    hotdogs =[]
-    hotdogs = data.read().split("\n")
-    print(hotdogs)
+    currenthv =[]
+    currenthv = data.read().split("\n")
+    print(currenthv)
 
-for i in hotdogs:
+for i in currenthv:
     vendor = i.split(",")
     print(vendor)
