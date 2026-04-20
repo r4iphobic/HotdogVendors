@@ -11,8 +11,8 @@ def displayVendors(file):
         currenthv[i] = currenthv[i].split(",")
 
 
-    title = "{:<20} {:^15} {:>20}       {:>20} {:>20} {:^15} {:^15}"        #formats the titles (clarifying what each value in the file is)
-    values = "{:<20} {:^15}{:>20}       {:^20} {:^20} {:^15} {:^15}"        #formats the values within the file
+    title = "{:<20} {:^25} {:>20}       {:>20} {:>20} {:^15} {:^15}"        #formats the titles (clarifying what each value in the file is)
+    values = "{:<20} {:^25}{:>20}       {:^20} {:^20} {:^15} {:^15}"        #formats the values within the file
 
     print(title.format("Vendor ID", "Vendor Name", "Year and Week", "# of Vegan Hotdogs", "# of Meat Hotdogs", "Onions (kg)", "Ketchup (litres)"), f"\n{"-"*139}")
 
