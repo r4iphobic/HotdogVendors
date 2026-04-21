@@ -43,4 +43,6 @@ def passwordValidation():
     
     passwordInput()
 
+    return(username)
+
 passwordValidation()
