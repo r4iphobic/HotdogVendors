@@ -112,6 +112,5 @@ def addVendor():
         print("Editing. . .")
     else:
         currenthv.append(newVendor)
-        print(currenthv)
 
 addVendor()
