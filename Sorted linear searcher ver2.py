@@ -1,5 +1,24 @@
 #Sorted Linear Search
 
+def s_datesearch(findings):
+    targetdate = int(input("Input date to view: ")) 
+    found = False
+    for i in range(0, len(findings) - 1):
+        if (int(findings[i][2]) == targetdate):
+               print(findings[i])
+               found = True
+               repeat = input("Would you like to search for another date?: ")
+               if (repeat == "Yes"):
+                    s_datesearch(findings)
+    if (found == False):
+        repeat = ""
+        repeat = input(f"{targetdate} not found.\nTry again?: ")
+        if (repeat == "Yes"):
+            s_datesearch(findings)
+                    
+        
+
+
 def s_linearsearch():
     #Prepping the code to be read "&" manipulated:
 
@@ -22,11 +41,21 @@ def s_linearsearch():
             found = True
         
     if (found == True):
-        print(f"{len(findings)} instances of {target} found.")
-        return(findings)
+        print(f"{len(findings)} instances of {target} found.\n")
+        
+        print(f"Dates available:")
+        for i in range(0, len(findings) - 1):
+             print(findings[i][2])
+
+        s_datesearch(findings)
+        
     else:
             print(f"{target} not found.")
-            return("")
+            repeat = ""
+            repeat = input("Try again?: ")
+            if (repeat == "Yes"): 
+                 s_linearsearch()
+    
 
 
 s_linearsearch()
