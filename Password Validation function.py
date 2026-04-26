@@ -4,7 +4,7 @@
 def passwordValidation():
     #potential users are...
     #* the CEO (middle access: able to view all users and all vendor data | can't view passwords nor change login data)
-    #* IT Dept. (middle access: able to view users & passwords, add users, change passwords | can't view vendor data)
+    #* IT Dept. (middle access: able to view users & passwords and change passwords | can't view vendor data)
     #* Employee (no access: can't view anything | can view vendor data)
 
     users = {
