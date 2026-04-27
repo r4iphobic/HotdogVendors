@@ -87,7 +87,7 @@ def employeeMenu():
 
 #UNLINTED, UNVALIDATED Display Vendors function
 
-def displayVendors(array):
+def displayVendors(array):                  #displays multiple vendors (and asks to sort)
     title = "{:<20} {:^25} {:>20}       {:>20} {:>20} {:^15} {:^15}"        #formats the titles (clarifying what each value in the file is)
     values = "{:<20} {:^25}{:>20}       {:^20} {:^20} {:^15} {:^15}"        #formats the values within the file
 
@@ -105,6 +105,14 @@ def displayVendors(array):
         displayVendors(sortVendors(currenthv))
     else:
         return
+
+def displaySingleVendor(array):             #displays one vendor (therefore doesn't ask to sort)
+    title = "{:<20} {:^25} {:>20}       {:>20} {:>20} {:^15} {:^15}"        #formats the titles (clarifying what each value in the file is)
+    values = "{:<20} {:^25}{:>20}       {:^20} {:^20} {:^15} {:^15}"        #formats the values within the file
+
+    print(title.format("Vendor ID", "Vendor Name", "Year and Week", "# of Vegan Hotdogs", "# of Meat Hotdogs", "Onions (kg)", "Ketchup (litres)"), f"\n{"-"*149}")
+
+    print(values.format(array[0],array[1],array[2],array[3],array[4],array[5],array[6]))
 
 
 
@@ -219,7 +227,6 @@ def searchVendor():
     targetname = input("Input vendor's name: ")
     targetdate = input(f"Input the date you wish to view for {targetname}: ")
     target = [targetname, targetdate]
-    print(target)
 
     def quickSortByDate(array):
         if (len(array) <= 1):
@@ -245,15 +252,13 @@ def searchVendor():
             midpoint = array[round((len(array) - 1)//2)]
 
             midpoint_nd = [midpoint[1], midpoint[2]]        #nd means name date (so: midpoint_namedate)
-            print(midpoint, "\n", midpoint_nd)
 
-            if (midpoint_nd == target):
-                print(f"we found it: {midpoint}")
+            if (midpoint_nd == target):                     #if found
                 return(midpoint)
             else:
                 if (midpoint[1] != target[0]):
                     if (midpoint[1] < target[0]):
-                        print("looking at upper half...")
+                        #looks @ upper half if the names of the target & current sublist looked at aren't the same
                         newarray = array.copy()
                         for i in range(0, array.index(midpoint) + 1):
                             newarray.pop(0)
@@ -261,7 +266,7 @@ def searchVendor():
                         return(findings)
 
                     else:
-                        print("looking at lower half...")
+                        #looks @ lower half if the names of the target & current sublist looked at aren't the same
                         newarray = array.copy()
                         for i in range(0, array.index(midpoint) + 1):
             	            newarray.pop(len(newarray) - 1)
@@ -270,7 +275,7 @@ def searchVendor():
 
                 elif (midpoint[1] == target[0]):
                     if (midpoint[2] < target[1]):
-                        print("looking at upper half...")
+                        #looks @ upper half if the names of the target & current sublist looked at are the same
                         newarray = array.copy()
                         for i in range(0, array.index(midpoint) + 1):
                             newarray.pop(0)
@@ -278,7 +283,7 @@ def searchVendor():
                         return(findings)
 
                     else:
-                        print("looking at lower half...")
+                        #looks @ lower half if the names of the target & current sublist looked at are the same
                         newarray = array.copy()
                         for i in range(0, array.index(midpoint) + 1):
             	            newarray.pop(len(newarray) - 1)
@@ -288,18 +293,19 @@ def searchVendor():
             midpoint = array[0]
             midpoint_nd = [midpoint[1], midpoint[2]]        #nd means name date (so: midpoint_namedate)
 
-            if (midpoint_nd == target):
-                print(f"we found it: {midpoint}")
+            if (midpoint_nd == target):                     #if found
                 return(midpoint)
 
-            elif (midpoint_nd != target):
+            elif (midpoint_nd != target):                   #if not found
                 return(midpoint)
 
     array = quickSortByDate(currenthv)
-    print(array)
 
     findings = binarySearch(array, target)
-    print(findings)
+
+    print("Target found:\n")
+    displaySingleVendor(findings)
+
     findings_nd = [findings[1], findings[2]]
 
     if (findings_nd != target):
