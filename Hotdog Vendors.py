@@ -2,7 +2,7 @@
 
 #Prepping the code to be read "&" manipulated:
 
-with open ("Hotdogs.txt", "r+") as data:      #opens file to read and write (also automatically closes)
+with open ("Testhotdogs.txt", "r+") as data:      #opens file to read and write (also automatically closes)
     currenthv =[]
     currenthv = data.read().split("\n")       #splits the text file into a list by each new line
 
@@ -66,7 +66,7 @@ def employeeMenu():
     "Input: "))
 
     if (choice == 1):
-        displayVendors()
+        displayVendors(currenthv)
     elif (choice == 2):
         addVendor()
     elif (choice == 3):
@@ -87,14 +87,25 @@ def employeeMenu():
 
 #UNLINTED, UNVALIDATED Display Vendors function
 
-def displayVendors():
+def displayVendors(array):
     title = "{:<20} {:^25} {:>20}       {:>20} {:>20} {:^15} {:^15}"        #formats the titles (clarifying what each value in the file is)
     values = "{:<20} {:^25}{:>20}       {:^20} {:^20} {:^15} {:^15}"        #formats the values within the file
 
     print(title.format("Vendor ID", "Vendor Name", "Year and Week", "# of Vegan Hotdogs", "# of Meat Hotdogs", "Onions (kg)", "Ketchup (litres)"), f"\n{"-"*139}")
 
-    for i in range(0,(len(currenthv)-1)):
-        print(values.format(currenthv[i][0],currenthv[i][1],currenthv[i][2],currenthv[i][3],currenthv[i][4],currenthv[i][5],currenthv[i][6]))
+    for i in array:
+        if (type(i) == str):
+            i = i.split(",")
+
+        print(values.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6]))
+    
+    sort = input("Sort vendors? Yes/No ")
+
+    if (sort == "Yes"):
+        displayVendors(sortVendors(currenthv))
+    else:
+        return
+
 
 
 #UNLINTED, UNVALIDATED Add Vendor "&" Generate Vendor ID function
@@ -210,9 +221,28 @@ def searchVendor():
     target = [targetname, targetdate]
     print(target)
 
-    def binarySearch(list, target):
-        if (len(list)> 2):
-            midpoint = list[round((len(list) - 1)//2)]
+    def quickSortByDate(array):
+        if (len(array) <= 1):
+            return(array)
+        else:
+            pivot = array.pop()
+
+        greater = []
+        less = []
+
+        for i in array:
+            if (i[2] > pivot[2]):
+                greater.append(i)
+            else:
+                less.append(i)
+        
+        combined = quickSortByDate(less) + [pivot] + quickSortByDate(greater)
+
+        return(combined)
+    
+    def binarySearch(array, target):
+        if (len(array)> 2):
+            midpoint = array[round((len(array) - 1)//2)]
 
             midpoint_nd = [midpoint[1], midpoint[2]]        #nd means name date (so: midpoint_namedate)
             print(midpoint, "\n", midpoint_nd)
@@ -224,38 +254,38 @@ def searchVendor():
                 if (midpoint[1] != target[0]):
                     if (midpoint[1] < target[0]):
                         print("looking at upper half...")
-                        newlist = list.copy()
-                        for i in range(0, list.index(midpoint) + 1):
-                            newlist.pop(0)
-                        findings = binarySearch(newlist,target)
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(0)
+                        findings = binarySearch(newarray,target)
                         return(findings)
 
                     else:
                         print("looking at lower half...")
-                        newlist = list.copy()
-                        for i in range(0, list.index(midpoint) + 1):
-            	            newlist.pop(len(newlist) - 1)
-                        findings = binarySearch(newlist,target)
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+            	            newarray.pop(len(newarray) - 1)
+                        findings = binarySearch(newarray,target)
                         return(findings)
 
                 elif (midpoint[1] == target[0]):
                     if (midpoint[2] < target[1]):
                         print("looking at upper half...")
-                        newlist = list.copy()
-                        for i in range(0, list.index(midpoint) + 1):
-                            newlist.pop(0)
-                        findings = binarySearch(newlist,target)
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(0)
+                        findings = binarySearch(newarray,target)
                         return(findings)
 
                     else:
                         print("looking at lower half...")
-                        newlist = list.copy()
-                        for i in range(0, list.index(midpoint) + 1):
-            	            newlist.pop(len(newlist) - 1)
-                        findings = binarySearch(newlist,target)
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+            	            newarray.pop(len(newarray) - 1)
+                        findings = binarySearch(newarray,target)
                         return(findings)
         else:
-            midpoint = list[0]
+            midpoint = array[0]
             midpoint_nd = [midpoint[1], midpoint[2]]        #nd means name date (so: midpoint_namedate)
 
             if (midpoint_nd == target):
@@ -265,13 +295,48 @@ def searchVendor():
             elif (midpoint_nd != target):
                 return(midpoint)
 
+    array = quickSortByDate(currenthv)
+    print(array)
 
-    findings = binarySearch(currenthv, target)
+    findings = binarySearch(array, target)
     print(findings)
     findings_nd = [findings[1], findings[2]]
 
     if (findings_nd != target):
         print("target not found. sorry!")
+
+#UNLINTED, UNVALIDATED Quick Sort function
+def sortVendors(array):
+    while True:
+        index = int(input("Would you like to sort by...\n" \
+            "1. Name\n" \
+            "2. Date\n"))
+
+        if ((index != 1) and (index != 2)):
+            print("Please enter the integer 1 or 2.\n")
+        else:
+            break
+
+    def quickSort(array):
+        if (len(array) <= 1):
+            return(array)
+        else:
+            pivot = array.pop()
+
+        greater = []
+        less = []
+
+        for i in array:
+            if (i[index] > pivot[index]):
+                greater.append(i)
+            else:
+                less.append(i)
+        
+        combined = quickSort(less) + [pivot] + quickSort(greater)
+
+        return(combined)
+    
+    return(quickSort(array))
 
 
 user = passwordValidation()
