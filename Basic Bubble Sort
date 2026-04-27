@@ -1,0 +1,34 @@
+#---Bubble sort
+testlist = [75, 6, 20, 19]
+
+swap = True                 #true means swaps were made
+while (swap == True):
+    swap = False
+    for i in range (0, (len(testlist) - 1)):
+        if (testlist[i] > testlist[i+1]):
+            a = testlist[i]
+            testlist.remove(testlist[i])
+            testlist.insert(i+1, a)
+            swap = True
+
+
+print("Final list is", testlist)
+
+#---Array Bubble sort
+
+testarray = [["lawful", 3], ["chaotic", 1], ["neutral", 2]]
+
+swap = True
+index = int(input("Input index: "))
+
+while (swap == True):
+    swap = False
+    for i in range(0, (len(testarray) - 1)):
+        if ((testarray[i][index]) > (testarray[i+1][index])):
+            a = testarray[i]
+            testarray.remove(testarray[i])
+            testarray.insert(i+1,a)
+            swap = True
+
+print(testarray)
+
