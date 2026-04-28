@@ -26,7 +26,6 @@ def displayAnalysis():
     
     analysis = ""
     array = []
-    superlative = []
 
     while True:
         vendorChoice = int(input("Analyse...\n" \
@@ -55,10 +54,33 @@ def displayAnalysis():
         else:
             print("Please enter 1 or 2 (integers).\n") 
     
+    def superlativeFinder(index):
+        superlative = array[0]
+        superlative_nd = []
+        superlative = float(superlative[index])
+
+        for i in array:
+            if (type(i) == str):
+                i = i.split(",")
+
+            currentval = float(i[index])
+
+            if (currentval > superlative):
+                superlative_nd = f"{i[1]} during {i[2]}"
+                superlative = currentval
+            elif (currentval == superlative):
+                superlative_nd += f" and {i[1]} during {i[2]}"
+                superlative = currentval
+        
+        return(superlative_nd)
+
     #Most Productive Vendor
+    superlative = []
     superlative = array[0]
     superlative_nd = []
+    
     superlative = float(superlative[3]) + float(superlative[4]) + float(superlative[5]) + float(superlative[6])
+    
     for i in array:
         if (type(i) == str):
             i = i.split(",")
@@ -108,68 +130,17 @@ def displayAnalysis():
 
     #Vendor that has ordered the most amount of onions
 
-    superlative = array[0]
-    superlative_nd = []
-    superlative = float(superlative[6])
-
-    for i in array:
-        if (type(i) == str):
-            i = i.split(",")
-
-        currentval = float(i[6])
-
-        if (currentval > superlative):
-            superlative_nd = f"{i[1]} during {i[2]}"
-            superlative = currentval
-        elif (currentval == superlative):
-            superlative_nd += f" and {i[1]} during {i[2]}"
-            superlative = currentval
-    
-    analysis += f"The vendor(s) that ordered the most onions was/were {superlative_nd} \n \n"
+    analysis += f"The vendor(s) that ordered the most onions was/were {superlativeFinder(6)} \n \n"
 
     #Vendor that ordered the most vegan hotdogs
 
-    superlative = array[0]
-    superlative_nd = []
-    superlative = float(superlative[3])
-
-    for i in array:
-        if (type(i) == str):
-            i = i.split(",")
-
-        currentval = float(i[3])
-
-        if (currentval > superlative):
-            superlative_nd = f"{i[1]} during {i[2]}"
-            superlative = currentval
-        elif (currentval == superlative):
-            superlative_nd += f" and {i[1]} during {i[2]}"
-            superlative = currentval
-    
-    analysis += f"The vendor(s) that ordered the most vegan hotdogs was/were {superlative_nd} \n \n"
+    analysis += f"The vendor(s) that ordered the most vegan hotdogs was/were {superlativeFinder(3)} \n \n"
 
     #Vendor that ordered that most meat hotdogs
-
-    superlative = array[0]
-    superlative_nd = []
-    superlative = float(superlative[4])
-
-    for i in array:
-        if (type(i) == str):
-            i = i.split(",")
-
-        currentval = float(i[4])
-
-        if (currentval > superlative):
-            superlative_nd = f"{i[1]} during {i[2]}"
-            superlative = currentval
-        elif (currentval == superlative):
-            superlative_nd += f" and {i[1]} during {i[2]}"
-            superlative = currentval
     
-    analysis += f"The vendor(s) that ordered the most meat hotdogs was/were {superlative_nd} \n \n"
+    analysis += f"The vendor(s) that ordered the most meat hotdogs was/were {superlativeFinder(4)} \n \n"
 
-    print(analysis)
+    print(f"\nAnalysis... \n{("-"*11)} \n{analysis}")
 
     if (vendorChoice == 1):
         with open (f"Analysis on {date}", "a+") as file:
