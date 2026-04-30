@@ -1,4 +1,18 @@
 # Hotdog-work
 Unit 4: Coursework for BTEC Nationals Computing Course (AAQ)
 
-#Style Guide:
+When running this program, ensure that the "Hotdogs.txt" is downloaded within the same folder that "final_hotdog_vendors.py" is in.
+The program WILL NOT run without it.
+
+## Efficiency comparisons:
+### Sorts:
+Bubble sort takes ~0.00018405914306640625s to complete\
+Quick sort takes ~1.2159347534179688e-05s to complete
+
+*A quick sort was selected as the sorter for this program*
+
+### Searches:
+Linear search takes ~9.584426879882812e-05s to complete\
+Binary search takes ~1.3589859008789062e-05s to complete
+
+*A binary search was selected as the searcher for this program*
