@@ -4,7 +4,7 @@ import random
 
 #Prepping the code to be read "&" manipulated:
 try:
-    with open ("Testhotdogs.txt", "r+", encoding="utf-8") as data:
+    with open ("Hotdogs.txt", "r+", encoding="utf-8") as data:
         #opens file to read and write (also automatically closes)
         currenthv =[]
         currenthv = data.read().split("\n")       #splits the text file into a list by each new line
@@ -793,7 +793,7 @@ def save():
 
     save_currenthv = save_currenthv.rstrip()
 
-    with open ("Testhotdogs.txt", "r+", encoding="utf-8") as data:
+    with open ("Hotdogs.txt", "r+", encoding="utf-8") as data:
         data.write(save_currenthv)
 
 
@@ -813,3 +813,5 @@ if ((user == "WDC_employee1") or (user == "WDC_employee2")):
             break
 
 save()
+
+print("Goodbye.")
