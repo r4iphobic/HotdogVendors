@@ -13,6 +13,8 @@ try:
     for i in range(0,(len(currenthv) -1) ):
         #splits the text file into smaller lists by each ','
         currenthv[i] = currenthv[i].split(",")
+        if currenthv[i] == [""]:
+            currenthv.pop(i)
 
 except FileNotFoundError:
     print("File with vendor data has not been found.\n" \
@@ -53,7 +55,7 @@ def password_validation():
                     print("Please input 0 or 1. \n")
 
     while True:
-        username = input("Enter username: ")
+        username = input("Enter username (case sensitive): ")
         if username in users:
             break
         else:
@@ -113,11 +115,11 @@ def employee_menu():
                             print("Answer must be Yes or No.\n")
                         else:
                             break
-                
+
                         if should_edit == "Yes":
                             edit_vendor(vendor)
                             break
-            
+
             elif choice == 4:
                 break
 
@@ -151,14 +153,14 @@ def it_menu():
 
         except ValueError:
             print("Please enter either 1 or 2 (integers).\n")
-        
+
         else:
             if choice == 1:
                 efficiency_calculator()
             elif choice == 2:
                 break
             else:
-                print("Please enter either 1 or 2 (integers).")
+                print("Please enter either 1 or 2 (integers).\n")
 
 #Display Vendor(s) procedures
 
@@ -248,7 +250,7 @@ def display_analysis():
                 break
             elif vendor_choice == 2:
                 while True:
-                    v_name = input("Input vendor name: ")
+                    v_name = (input("Input vendor name: ")).title()
 
                     #look for inputted name
                     for h, sublist in enumerate(currenthv - 1):
@@ -321,16 +323,16 @@ def display_analysis():
         meat_hotdog_count += float(sublist[4])
 
     if vegan_hotdog_count > meat_hotdog_count:
-        hotdog_evaluation = f"Overall, there were {vegan_hotdog_count-meat_hotdog_count} \
-        more vegan hotdogs supplied than meat hotdogs."
+        hotdog_evaluation = f"Overall, there were {vegan_hotdog_count-meat_hotdog_count} "\
+        "more vegan hotdogs supplied than meat hotdogs."
 
     elif vegan_hotdog_count == meat_hotdog_count:
-        hotdog_evaluation = f"Overall, there has been an equal amount of vegan and meat \
-        hotdogs supplied ({vegan_hotdog_count})"
+        hotdog_evaluation = f"Overall, there has been an equal amount of vegan and meat "\
+        "hotdogs supplied ({vegan_hotdog_count})"
 
     else:
-        hotdog_evaluation = f"Overall, there were {meat_hotdog_count-vegan_hotdog_count} \
-        more meat hotdogs supplied than vegan hotdogs."
+        hotdog_evaluation = f"Overall, there were {meat_hotdog_count-vegan_hotdog_count} "\
+        "more meat hotdogs supplied than vegan hotdogs."
 
     analysis += f"{hotdog_evaluation} \n \n"
 
@@ -350,12 +352,12 @@ def display_analysis():
     analysis += f"The vendor(s) that ordered the most onions was/were {superlative_finder(6)} \n \n"
 
     #Vendor that ordered the most vegan hotdogs
-    analysis += f"The vendor(s) that ordered the most vegan hotdogs was/were \
-    {superlative_finder(3)} \n \n"
+    analysis += f"The vendor(s) that ordered the most vegan hotdogs was/were "\
+    f"{superlative_finder(3)} \n \n"
 
     #Vendor that ordered that most meat hotdogs
-    analysis += f"The vendor(s) that ordered the most meat hotdogs was/were \
-    {superlative_finder(4)} \n \n"
+    analysis += f"The vendor(s) that ordered the most meat hotdogs was/were "\
+    f"{superlative_finder(4)} \n \n"
 
     print(f"\nAnalysis... \n{("-"*11)} \n{analysis}")
 
@@ -400,7 +402,7 @@ def add_vendor():
     * Volume of ketchup (litres)"""
 
     while True:                                                         #enter vendor name
-        v_name = input("Enter name: ")
+        v_name = (input("Enter name: ")).title()
         if ((len(v_name) <= 25) and (len(v_name) >= 2)):
             print(f"Name valid: {v_name}")
             break
@@ -462,7 +464,7 @@ def add_vendor():
             print(f"# of Meat Hotdogs valid: {v_mhotdogs}\n")
             break
         else:
-            print("# of Meat Hotdogs must be divisble by 10.")
+            print("# of Meat Hotdogs must be divisble by 10.\n")
 
 
 
@@ -480,7 +482,8 @@ def add_vendor():
             print(f"Onions (kg) valid: {v_onions}\n")
             break
         else:
-            print("The weight of onions must be in half kilogram increments (e.g. '0.5' or '0.0')")
+            print("The weight of onions must be in half kilogram increments "\
+                "(e.g. '0.5' or '0.0')\n")
 
     while True:
         #enter vendor's volume of ketchup ordered
@@ -496,8 +499,8 @@ def add_vendor():
             print(f"Ketchup (litres) valid: {v_ketchup}\n")
             break
         else:
-            print("Volume of ketchup ordered must be an integer (not a decimal number)\
-            between 1 and 4.")
+            print("Volume of ketchup ordered must be an integer (not a decimal number) "\
+            "between 1 and 4.\n")
 
     new_vendor = [v_id, v_name, v_date, str(v_vhotdogs), str(v_mhotdogs), \
         str(v_onions), str(v_ketchup)]
@@ -541,7 +544,7 @@ def edit_vendor(array):
 
     if index == 1:
         while True:
-            newval = input("Enter name: ")
+            newval = (input("Enter name: ")).title()
             if ((len(newval) <= 25) and (len(newval) >= 2)):
                 print(f"Name valid: {newval}")
                 break
@@ -602,7 +605,7 @@ def edit_vendor(array):
                 print(f"# of Meat Hotdogs valid: {newval}\n")
                 break
             else:
-                print("# of Meat Hotdogs must be divisble by 10.")
+                print("# of Meat Hotdogs must be divisble by 10.\n")
 
     elif index == 5:
         while True:
@@ -620,7 +623,7 @@ def edit_vendor(array):
                 break
             else:
                 print("The weight of onions must be in half kilogram increments \
-                (e.g. '0.5' or '0.0')")
+                (e.g. '0.5' or '0.0')\n")
 
     elif index == 6:
         while True:
@@ -638,10 +641,10 @@ def edit_vendor(array):
                 break
             else:
                 print("Volume of ketchup ordered must be an integer (not a decimal number)\
-                between 1 and 4.")
+                between 1 and 4.\n")
 
     else:
-        print("Selection must be an integer between 1 & 6 (inclusive)")
+        print("Selection must be an integer between 1 & 6 (inclusive)\n")
         edit_vendor(array)
 
     array.pop(index)
@@ -664,7 +667,7 @@ def edit_vendor(array):
 def search_vendor():
     """Searches for vendor that user inputs the name of"""
 
-    targetname = input("Input vendor's name: ")
+    targetname = (input("Input vendor's name: ")).title()
 
     while True:
         try:
@@ -786,6 +789,8 @@ def sort_vendors(array):
     return quick_sort(array, index)
 
 def quick_sort(array, index):
+    """The actual sorter that sorts the vendors"""
+
     if len(array) <= 1:
         return array
     else:
@@ -826,11 +831,11 @@ def efficiency_calculator():
 
     bubble_start = time.time() #takes total time the code has been running
 
-    while (swap == True):
+    while swap is True:
         swap = False                              #to stop the loop
         for i in range(0, (len(currenthv) - 1)):
-            if ((currenthv[i][1]) > (currenthv[i+1][1])):
-                #compares the values (names) in each sublist, 
+            if (currenthv[i][1]) > (currenthv[i+1][1]):
+                #compares the values (names) in each sublist,
                 #swaps if left value is bigger than right value
 
                 a = currenthv[i]
@@ -856,32 +861,35 @@ def efficiency_calculator():
     #Comparing efficiency of sorters:
 
     if quick_time > bubble_time:
-        print(f"Bubble sort is faster than quick sort by {round(quick_time-bubble_time, 10)} seconds.\n")
+        print(f"Bubble sort is faster than quick sort by "\
+            f"{round(quick_time-bubble_time, 10)} seconds.\n")
 
     elif bubble_time > quick_time:
-        print(f"Quick sort is faster than bubble sort by {round(bubble_time-quick_time, 10)} seconds.\n")
+        print(f"Quick sort is faster than bubble sort by "\
+            f"{round(bubble_time-quick_time, 10)} seconds.\n")
 
     else:
         print("The quick sort and bubble sort currently take the same amount of time to run.\n"\
-        "If this keeps happening, please change the size of the list in 'Hotdogs.txt' to see a difference.\n")
+        "If this keeps happening, please change the size of the list in 'Hotdogs.txt' "\
+            "to see a difference.\n")
 
     #Sorted linear search when value is found
     target = "Dolly Dogs"
     findings = []
     found = False
-    
+
     valid_linear_start = time.time()
 
     for i in range(0, len(currenthv) - 1):
-        if (currenthv[i][1] == target):
+        if currenthv[i][1] == target:
             findings.append(currenthv[i])
             found = True
-        
-    if (found == True):
+
+    if found is True:
         targetdate = 202315
         found = False
         for i in range(0, len(findings) - 1):
-            if (int(findings[i][2]) == targetdate):
+            if int(findings[i][2]) == targetdate:
                 found = True
 
     valid_linear_end = time.time()
@@ -890,7 +898,7 @@ def efficiency_calculator():
 
 
     #Binary search when value is found
-    
+
     valid_binary_start = time.time()
 
     target = ["Dolly Dogs", str(202315)]
@@ -980,19 +988,22 @@ def efficiency_calculator():
 
     valid_binary_time = valid_binary_end - valid_binary_start
 
-    print(f"When the value is found, a sorted linear search takes {round(valid_linear_time,5)} seconds.")
-    print(f"When the value is found, a binary search takes {round(valid_binary_time,5)} seconds.\n")
+    print(f"When the value is found, a sorted linear search takes {round(valid_linear_time,7)} "\
+        "seconds.")
+    print(f"When the value is found, a binary search takes {round(valid_binary_time,7)} seconds.\n")
 
 
     #Comparing efficiency of searchers when value is found:
 
     if valid_linear_time > valid_binary_time:
         print(f"When the value is found, "\
-        f"a binary search is faster than a linear search by {round(valid_linear_time-valid_binary_time, 7)} seconds.\n")
+        f"a binary search is faster than a linear search by "\
+            f"{round(valid_linear_time-valid_binary_time, 7)} seconds.\n")
 
     elif valid_binary_time > valid_linear_time:
         print(f"When the value is found, "\
-        f"a linear search is faster than a binary search by {round(valid_binary_time-valid_linear_time, 7)} seconds.\n")
+        f"a linear search is faster than a binary search by "\
+            f"{round(valid_binary_time-valid_linear_time, 7)} seconds.\n")
 
     else:
         print("When the value is found, a "\
@@ -1004,20 +1015,19 @@ def efficiency_calculator():
     target = "Fake Vendor"
     findings = []
     found = False
-    
+
     invalid_linear_start = time.time()
 
     for i in range(0, len(currenthv) - 1):
-        if (currenthv[i][1] == target):
+        if currenthv[i][1] == target:
             findings.append(currenthv[i])
             found = True
-        
-    if (found == True):
 
+    if found is True:
         targetdate = 202618
         found = False
         for i in range(0, len(findings) - 1):
-            if (int(findings[i][2]) == targetdate):
+            if int(findings[i][2]) == targetdate:
                 found = True
 
     invalid_linear_end = time.time()
@@ -1028,113 +1038,38 @@ def efficiency_calculator():
     invalid_binary_start = time.time()
 
     target = ["Fake Vendor", str(202618)]
-
-    def quick_sort_by_name(array):
-        if len(array) <= 1:
-            return array
-        else:
-            pivot = array.pop()
-
-        greater = []
-        less = []
-
-        for i in array:
-            if i[1] > pivot[1]:
-                greater.append(i)
-            else:
-                less.append(i)
-
-        combined = quick_sort_by_name(less) + [pivot] + quick_sort_by_name(greater)
-
-        return combined
-
-    def binary_search(array, target):
-        if len(array) > 2:
-            midpoint = array[round((len(array) - 1)//2)]
-
-            midpoint_nd = [midpoint[1], midpoint[2]]
-            #nd means name date (so: midpoint_namedate)
-
-            if midpoint_nd == target:                     #if found
-                return midpoint
-            else:
-                if midpoint[1] != target[0]:
-                    if midpoint[1] < target[0]:
-                        #looks @ upper half if the names of the target
-                        # & current sublist looked at aren't the same
-                        newarray = array.copy()
-                        for i in range(0, array.index(midpoint) + 1):
-                            newarray.pop(0)
-                        findings = binary_search(newarray,target)
-                        return findings
-
-                    else:
-                        #looks @ lower half if the names of the target
-                        # & current sublist looked at aren't the same
-                        newarray = array.copy()
-                        for i in range(0, array.index(midpoint) + 1):
-                            newarray.pop(len(newarray) - 1)
-                        findings = binary_search(newarray,target)
-                        return findings
-
-                elif midpoint[1] == target[0]:
-                    if midpoint[2] < target[1]:
-                        #looks @ upper half if the names of the target
-                        # & current sublist looked at are the same
-                        newarray = array.copy()
-                        for i in range(0, array.index(midpoint) + 1):
-                            newarray.pop(0)
-                        findings = binary_search(newarray,target)
-                        return findings
-
-                    else:
-                        #looks @ lower half if the names of the target
-                        # & current sublist looked at are the same
-                        newarray = array.copy()
-                        for i in range(0, array.index(midpoint) + 1):
-                            newarray.pop(len(newarray) - 1)
-                        findings = binary_search(newarray,target)
-                        return findings
-        else:
-            midpoint = array[0]
-            midpoint_nd = [midpoint[1], midpoint[2]]
-            #nd means name date (so: midpoint_namedate)
-
-            if midpoint_nd == target:                     #if found
-                return midpoint
-
-            elif midpoint_nd != target:                   #if not found
-                return midpoint
-
     array = quick_sort_by_name(currenthv)
 
-    findings = binary_search(array, target)
-    findings_nd = [findings[1], findings[2]]
+    binary_search(array, target)
 
     invalid_binary_end = time.time()
 
     invalid_binary_time = invalid_binary_end - invalid_binary_start
 
-    print(f"When the value isn't found, a sorted linear search takes {round(invalid_linear_time, 5)} seconds.")
-    print(f"When the value isn't found, a binary search takes {round(invalid_binary_time,5)} seconds.\n")
+    print(f"When the value isn't found, a sorted linear search takes "\
+        f"{round(invalid_linear_time, 7)} seconds.")
+    print(f"When the value isn't found, a binary search takes "\
+        f"{round(invalid_binary_time,7)} seconds.\n")
 
     #Comparing efficiency of searchers isn't found:
 
     if invalid_linear_time > invalid_binary_time:
         print(f"When the value isn't found, "\
-        f"a binary search is faster than a linear search by {round(invalid_linear_time-invalid_binary_time, 7)} seconds.\n")
+        f"a binary search is faster than a linear search by "\
+            f"{round(invalid_linear_time-invalid_binary_time, 7)} seconds.\n")
 
     elif invalid_binary_time > invalid_linear_time:
         print(f"When the value isn't found, "\
-        f"a linear search is faster than a binary search by {round(invalid_binary_time-invalid_linear_time, 7)} seconds.\n")
+        f"a linear search is faster than a binary search by "\
+            f"{round(invalid_binary_time-invalid_linear_time, 7)} seconds.\n")
 
     else:
         print("When the value isn't found, a "\
         "linear search and binary search currently take the same amount of time to run.\n"\
         "Please change the size of the list in 'Hotdogs.txt' to see a difference.\n")
-    
-    print("When sorting and searching, a quick sort and binary search are used respectively as they "\
-    "repeatedly tested to be faster.\n")
+
+    print("When sorting and searching, a quick sort and binary search are used respectively "\
+        "as they are more efficient especially when used for a large data set.\n")
 
 #Save function
 
@@ -1177,16 +1112,6 @@ if ((user == "WDC_employee1") or (user == "WDC_employee2")):
 
 elif user == "WDC_IT":
     it_menu()
-
-    while True:
-        display = (input("Display vendor analysis? Yes/No: ")).title()
-        if (display != "Yes") and (display != "No"):
-            print("Please input yes or no.\n")
-        elif display == "No":
-            break
-        else:
-            display_analysis()
-            break
 
 save()
 
