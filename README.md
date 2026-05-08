@@ -4,7 +4,7 @@ Unit 4: Coursework for BTEC Nationals Computing Course (AAQ)
 <ins>When running this program, ensure that the "Hotdogs.txt" is downloaded within the same folder that "final_hotdog_vendors.py" is in.
 The program WILL NOT run without it.</ins>
 
-*Currently, only employees have a menu.*
+*Currently, only employees & IT have a menu. IT's menu only includes displaying the efficiencies of the searchers and sorts*
 
 ## Usernames and passwords:
 * user: WDC_ceo | password: password1
