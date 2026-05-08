@@ -6,7 +6,7 @@ The program WILL NOT run without it.</ins>
 
 *Currently, only employees have a menu.*
 
-##Usernames and passwords:
+## Usernames and passwords:
 * user: WDC_ceo | password: password1
 * user: WDC_IT | password: password2
 * user: WDC_employee1 | password: password3
