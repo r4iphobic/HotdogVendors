@@ -1,6 +1,7 @@
 """Final Version of Hotdog Vendors Program"""
 import math
 import random
+import time
 
 #Prepping the code to be read "&" manipulated:
 try:
@@ -76,10 +77,11 @@ def employee_menu():
             choice = int(input("What would you like to do?: \n" \
             "1. View Vendors\n" \
             "2. Add Vendor\n" \
-            "3. Search for a Vendor\n"
-            "Input: "))
+            "3. Search for a Vendor\n"\
+            "4. Exit\n"
+            "Input choice: "))
         except ValueError:
-            print("Please enter an integer between 1 & 3 (inclusive).\n")
+            print("Please enter an integer between 1 & 4 (inclusive).\n")
 
         else:
             if choice == 1:
@@ -98,23 +100,29 @@ def employee_menu():
             elif choice == 2:
                 add_vendor()
                 break
+
             elif choice == 3:
+
                 vendor = search_vendor()
 
-                while True:
-                    should_edit = (input("Would you like to edit any of the \
+                if vendor:
+                    while True:
+                        should_edit = (input("Would you like to edit any of the \
                         vendor information? (Yes/No): ")).title()
-                    if ((should_edit != "Yes") and (should_edit != "No")):
-                        print("Answer must be Yes or No.\n")
-                    else:
-                        break
-
-                if should_edit == "Yes":
-                    edit_vendor(vendor)
-                    break
+                        if ((should_edit != "Yes") and (should_edit != "No")):
+                            print("Answer must be Yes or No.\n")
+                        else:
+                            break
+                
+                        if should_edit == "Yes":
+                            edit_vendor(vendor)
+                            break
+            
+            elif choice == 4:
+                break
 
             else:
-                print("Please enter an integer between 1 & 3 (inclusive).\n")
+                print("Please enter an integer between 1 & 4 (inclusive).\n")
 
     while True:
         repeat = (input("Would you like to do anything else? Yes/No ")).title()
@@ -126,6 +134,31 @@ def employee_menu():
             break
         else:
             print("Please input 'Yes' or 'No'.\n")
+
+#IT Menu procedure
+
+def it_menu():
+    """IT Menu
+    Allows users to...
+    * View efficiency of sorters and searchers"""
+
+    while True:
+        try:
+            choice = int(input("What would you like to do?: \n" \
+            "1. Calculate efficiency\n" \
+            "2. Exit\n" \
+            "Input: "))
+
+        except ValueError:
+            print("Please enter either 1 or 2 (integers).\n")
+        
+        else:
+            if choice == 1:
+                efficiency_calculator()
+            elif choice == 2:
+                break
+            else:
+                print("Please enter either 1 or 2 (integers).")
 
 #Display Vendor(s) procedures
 
@@ -179,9 +212,9 @@ def display_analysis():
         try:
             while True:
                 #enter today's date
-                year = int(input("Enter year: "))
+                year = int(input("Enter the current year: "))
                 if ((year < 10000) and (year >= 1000)):
-                    week = int(input("Enter week: "))
+                    week = int(input("Enter the current week: "))
 
                     if((week >= 1) and (week <= 52)):
                         #todays date in YYYYMM format
@@ -632,6 +665,7 @@ def search_vendor():
     """Searches for vendor that user inputs the name of"""
 
     targetname = input("Input vendor's name: ")
+
     while True:
         try:
             targetdate = int(input(f"Input the date you wish to view for {targetname}: "))
@@ -642,7 +676,7 @@ def search_vendor():
 
     target = [targetname, str(targetdate)]
 
-    def quick_sort_by_date(array):
+    def quick_sort_by_name(array):
         if len(array) <= 1:
             return array
         else:
@@ -652,12 +686,12 @@ def search_vendor():
         less = []
 
         for i in array:
-            if i[2] > pivot[2]:
+            if i[1] > pivot[1]:
                 greater.append(i)
             else:
                 less.append(i)
 
-        combined = quick_sort_by_date(less) + [pivot] + quick_sort_by_date(greater)
+        combined = quick_sort_by_name(less) + [pivot] + quick_sort_by_name(greater)
 
         return combined
 
@@ -719,7 +753,7 @@ def search_vendor():
             elif midpoint_nd != target:                   #if not found
                 return midpoint
 
-    array = quick_sort_by_date(currenthv)
+    array = quick_sort_by_name(currenthv)
 
     findings = binary_search(array, target)
     findings_nd = [findings[1], findings[2]]
@@ -749,7 +783,119 @@ def sort_vendors(array):
         except ValueError:
             print("Please enter the integer 1 or 2.\n")
 
-    def quick_sort(array):
+    return quick_sort(array, index)
+
+def quick_sort(array, index):
+    if len(array) <= 1:
+        return array
+    else:
+        pivot = array.pop()
+
+    greater = []
+    less = []
+
+    for i in array:
+        if isinstance(i, str):
+            i = i.split(",")
+
+        if i[index] > pivot[index]:
+            greater.append(i)
+        else:
+            less.append(i)
+
+    combined = quick_sort(less,index) + [pivot] + quick_sort(greater,index)
+
+    return combined
+
+#Efficiency calculator procedure
+
+def efficiency_calculator():
+    """Calculates and displays the efficiency of each search and sort
+    Then outputs the sort and search used, and why.
+
+    Sorts tested:
+    * Bubble Sort
+    * Quick Sort
+
+    Searches tested:
+    * Linear search
+    * Binary search"""
+
+    #Bubble Sort
+    swap = True
+
+    bubble_start = time.time() #takes total time the code has been running
+
+    while (swap == True):
+        swap = False                              #to stop the loop
+        for i in range(0, (len(currenthv) - 1)):
+            if ((currenthv[i][1]) > (currenthv[i+1][1])):
+                #compares the values (names) in each sublist, 
+                #swaps if left value is bigger than right value
+
+                a = currenthv[i]
+                currenthv.remove(currenthv[i])
+                currenthv.insert(i+1,a)
+                swap = True                       #to start it again if a swap has been made
+
+    bubble_end = time.time()
+
+    bubble_time = bubble_end - bubble_start #calculates total time for bubble sort to run
+
+    #Quick Sort
+
+    quick_start = time.time()
+    quick_sort(currenthv,1)
+    quick_end = time.time()
+
+    quick_time = quick_end - quick_start #calculates total time for quick sort to run
+
+    print(f"The quick sort took {round(quick_time,7)} seconds to complete.")
+    print(f"The bubble sort took {round(bubble_time,7)} seconds to complete.\n")
+
+    #Comparing efficiency of sorters:
+
+    if quick_time > bubble_time:
+        print(f"Bubble sort is faster than quick sort by {round(quick_time-bubble_time, 10)} seconds.\n")
+
+    elif bubble_time > quick_time:
+        print(f"Quick sort is faster than bubble sort by {round(bubble_time-quick_time, 10)} seconds.\n")
+
+    else:
+        print("The quick sort and bubble sort currently take the same amount of time to run.\n"\
+        "If this keeps happening, please change the size of the list in 'Hotdogs.txt' to see a difference.\n")
+
+    #Sorted linear search when value is found
+    target = "Dolly Dogs"
+    findings = []
+    found = False
+    
+    valid_linear_start = time.time()
+
+    for i in range(0, len(currenthv) - 1):
+        if (currenthv[i][1] == target):
+            findings.append(currenthv[i])
+            found = True
+        
+    if (found == True):
+        targetdate = 202315
+        found = False
+        for i in range(0, len(findings) - 1):
+            if (int(findings[i][2]) == targetdate):
+                found = True
+
+    valid_linear_end = time.time()
+
+    valid_linear_time = valid_linear_end - valid_linear_start
+
+
+    #Binary search when value is found
+    
+    valid_binary_start = time.time()
+
+    target = ["Dolly Dogs", str(202315)]
+
+    def quick_sort_by_name(array):
         if len(array) <= 1:
             return array
         else:
@@ -759,19 +905,236 @@ def sort_vendors(array):
         less = []
 
         for i in array:
-            if isinstance(i, str):
-                i = i.split(",")
-
-            if i[index] > pivot[index]:
+            if i[1] > pivot[1]:
                 greater.append(i)
             else:
                 less.append(i)
 
-        combined = quick_sort(less) + [pivot] + quick_sort(greater)
+        combined = quick_sort_by_name(less) + [pivot] + quick_sort_by_name(greater)
 
         return combined
 
-    return quick_sort(array)
+    def binary_search(array, target):
+        if len(array) > 2:
+            midpoint = array[round((len(array) - 1)//2)]
+
+            midpoint_nd = [midpoint[1], midpoint[2]]
+            #nd means name date (so: midpoint_namedate)
+
+            if midpoint_nd == target:                     #if found
+                return midpoint
+            else:
+                if midpoint[1] != target[0]:
+                    if midpoint[1] < target[0]:
+                        #looks @ upper half if the names of the target
+                        # & current sublist looked at aren't the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(0)
+                        findings = binary_search(newarray,target)
+                        return findings
+
+                    else:
+                        #looks @ lower half if the names of the target
+                        # & current sublist looked at aren't the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(len(newarray) - 1)
+                        findings = binary_search(newarray,target)
+                        return findings
+
+                elif midpoint[1] == target[0]:
+                    if midpoint[2] < target[1]:
+                        #looks @ upper half if the names of the target
+                        # & current sublist looked at are the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(0)
+                        findings = binary_search(newarray,target)
+                        return findings
+
+                    else:
+                        #looks @ lower half if the names of the target
+                        # & current sublist looked at are the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(len(newarray) - 1)
+                        findings = binary_search(newarray,target)
+                        return findings
+        else:
+            midpoint = array[0]
+            midpoint_nd = [midpoint[1], midpoint[2]]
+            #nd means name date (so: midpoint_namedate)
+
+            if midpoint_nd == target:                     #if found
+                return midpoint
+
+            elif midpoint_nd != target:                   #if not found
+                return midpoint
+
+    array = quick_sort_by_name(currenthv)
+
+    findings = binary_search(array, target)
+
+    valid_binary_end = time.time()
+
+    valid_binary_time = valid_binary_end - valid_binary_start
+
+    print(f"When the value is found, a sorted linear search takes {round(valid_linear_time,5)} seconds.")
+    print(f"When the value is found, a binary search takes {round(valid_binary_time,5)} seconds.\n")
+
+
+    #Comparing efficiency of searchers when value is found:
+
+    if valid_linear_time > valid_binary_time:
+        print(f"When the value is found, "\
+        f"a binary search is faster than a linear search by {round(valid_linear_time-valid_binary_time, 7)} seconds.\n")
+
+    elif valid_binary_time > valid_linear_time:
+        print(f"When the value is found, "\
+        f"a linear search is faster than a binary search by {round(valid_binary_time-valid_linear_time, 7)} seconds.\n")
+
+    else:
+        print("When the value is found, a "\
+        "linear search and binary search currently take the same amount of time to run.\n" \
+        "Please change the size of the list in 'Hotdogs.txt' to see a difference.\n")
+
+
+    #Sorted linear search when value isn't found
+    target = "Fake Vendor"
+    findings = []
+    found = False
+    
+    invalid_linear_start = time.time()
+
+    for i in range(0, len(currenthv) - 1):
+        if (currenthv[i][1] == target):
+            findings.append(currenthv[i])
+            found = True
+        
+    if (found == True):
+
+        targetdate = 202618
+        found = False
+        for i in range(0, len(findings) - 1):
+            if (int(findings[i][2]) == targetdate):
+                found = True
+
+    invalid_linear_end = time.time()
+
+    invalid_linear_time = invalid_linear_end - invalid_linear_start
+
+    #Binary search when value isn't found
+    invalid_binary_start = time.time()
+
+    target = ["Fake Vendor", str(202618)]
+
+    def quick_sort_by_name(array):
+        if len(array) <= 1:
+            return array
+        else:
+            pivot = array.pop()
+
+        greater = []
+        less = []
+
+        for i in array:
+            if i[1] > pivot[1]:
+                greater.append(i)
+            else:
+                less.append(i)
+
+        combined = quick_sort_by_name(less) + [pivot] + quick_sort_by_name(greater)
+
+        return combined
+
+    def binary_search(array, target):
+        if len(array) > 2:
+            midpoint = array[round((len(array) - 1)//2)]
+
+            midpoint_nd = [midpoint[1], midpoint[2]]
+            #nd means name date (so: midpoint_namedate)
+
+            if midpoint_nd == target:                     #if found
+                return midpoint
+            else:
+                if midpoint[1] != target[0]:
+                    if midpoint[1] < target[0]:
+                        #looks @ upper half if the names of the target
+                        # & current sublist looked at aren't the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(0)
+                        findings = binary_search(newarray,target)
+                        return findings
+
+                    else:
+                        #looks @ lower half if the names of the target
+                        # & current sublist looked at aren't the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(len(newarray) - 1)
+                        findings = binary_search(newarray,target)
+                        return findings
+
+                elif midpoint[1] == target[0]:
+                    if midpoint[2] < target[1]:
+                        #looks @ upper half if the names of the target
+                        # & current sublist looked at are the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(0)
+                        findings = binary_search(newarray,target)
+                        return findings
+
+                    else:
+                        #looks @ lower half if the names of the target
+                        # & current sublist looked at are the same
+                        newarray = array.copy()
+                        for i in range(0, array.index(midpoint) + 1):
+                            newarray.pop(len(newarray) - 1)
+                        findings = binary_search(newarray,target)
+                        return findings
+        else:
+            midpoint = array[0]
+            midpoint_nd = [midpoint[1], midpoint[2]]
+            #nd means name date (so: midpoint_namedate)
+
+            if midpoint_nd == target:                     #if found
+                return midpoint
+
+            elif midpoint_nd != target:                   #if not found
+                return midpoint
+
+    array = quick_sort_by_name(currenthv)
+
+    findings = binary_search(array, target)
+    findings_nd = [findings[1], findings[2]]
+
+    invalid_binary_end = time.time()
+
+    invalid_binary_time = invalid_binary_end - invalid_binary_start
+
+    print(f"When the value isn't found, a sorted linear search takes {round(invalid_linear_time, 5)} seconds.")
+    print(f"When the value isn't found, a binary search takes {round(invalid_binary_time,5)} seconds.\n")
+
+    #Comparing efficiency of searchers isn't found:
+
+    if invalid_linear_time > invalid_binary_time:
+        print(f"When the value isn't found, "\
+        f"a binary search is faster than a linear search by {round(invalid_linear_time-invalid_binary_time, 7)} seconds.\n")
+
+    elif invalid_binary_time > invalid_linear_time:
+        print(f"When the value isn't found, "\
+        f"a linear search is faster than a binary search by {round(invalid_binary_time-invalid_linear_time, 7)} seconds.\n")
+
+    else:
+        print("When the value isn't found, a "\
+        "linear search and binary search currently take the same amount of time to run.\n"\
+        "Please change the size of the list in 'Hotdogs.txt' to see a difference.\n")
+    
+    print("When sorting and searching, a quick sort and binary search are used respectively as they "\
+    "repeatedly tested to be faster.\n")
 
 #Save function
 
@@ -812,6 +1175,21 @@ if ((user == "WDC_employee1") or (user == "WDC_employee2")):
             display_analysis()
             break
 
+elif user == "WDC_IT":
+    it_menu()
+
+    while True:
+        display = (input("Display vendor analysis? Yes/No: ")).title()
+        if (display != "Yes") and (display != "No"):
+            print("Please input yes or no.\n")
+        elif display == "No":
+            break
+        else:
+            display_analysis()
+            break
+
 save()
 
 print("Goodbye.")
+
+time.sleep(5.00)
