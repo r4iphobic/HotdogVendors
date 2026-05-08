@@ -6,6 +6,13 @@ The program WILL NOT run without it.</ins>
 
 *Currently, only employees have a menu.*
 
+##Usernames and passwords:
+* user: WDC_ceo | password: password1
+* user: WDC_it | password: password2
+* user: WDC_employee1 | password: password3
+* user: WDC_employee2 | password: password4
+
+
 ## Efficiency comparisons:
 ### Sorts:
 Bubble sort takes ~0.00018405914306640625s to complete\
