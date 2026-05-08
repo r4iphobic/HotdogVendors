@@ -8,7 +8,7 @@ The program WILL NOT run without it.</ins>
 
 ##Usernames and passwords:
 * user: WDC_ceo | password: password1
-* user: WDC_it | password: password2
+* user: WDC_IT | password: password2
 * user: WDC_employee1 | password: password3
 * user: WDC_employee2 | password: password4
 
